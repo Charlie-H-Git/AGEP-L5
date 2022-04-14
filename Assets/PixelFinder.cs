@@ -16,19 +16,22 @@ public class PixelFinder : MonoBehaviour
 {
     private GameObject Terrain;
 
-    public Color32 ControlColourWater;
-
-    public Color32 ControlColourSand;
-
-    public Color32 ControlColourGrass;
-
-    public Color32 ControlColourMountains;
+    public Color32[] ControlColours;
+    
+    //Old Control Colours
+    // public Color32 ControlColourWater;
+    //
+    // public Color32 ControlColourSand;
+    //
+    // public Color32 ControlColourGrass;
+    //
+    // public Color32 ControlColourMountains;
     
     private Texture terrainTexture;
 
     private Texture2D terrainTexture2D;
 
-    public List<Pixel> LandType = new List<Pixel>();
+    private List<Pixel> LandType = new List<Pixel>();
     
     public bool Scanned;
 
@@ -40,9 +43,12 @@ public class PixelFinder : MonoBehaviour
     void Start()
     {
         GetTexture();
-        
     }
-
+    void Update()
+    {
+        ScanTexture();
+        GenerateTexture();
+    }
     void GetTexture()
     {
         Terrain = GameObject.FindGameObjectWithTag("Terrain"); 
@@ -62,9 +68,9 @@ public class PixelFinder : MonoBehaviour
                     Color32 colour = terrainTexture2D.GetPixel(x,y);
                     Colour.Add(colour);
                     Scanned = true;
-                    if (colour.Equals(ControlColourWater))
+                    if (colour.Equals(ControlColours[0]))
                     {
-                        
+                        PixelCount++;
                         var l = new Pixel()
                         {
                             Type = "sea",
@@ -73,9 +79,11 @@ public class PixelFinder : MonoBehaviour
                         LandType.Add(l);
                         Scanned = true;
                     }
-                    if (colour.Equals(ControlColourSand))
+
+                    
+                    if (colour.Equals(ControlColours[1]))
                     {
-                        
+                        PixelCount++;
                         var s = new Pixel()
                         {
                             Type = "beach",
@@ -84,9 +92,9 @@ public class PixelFinder : MonoBehaviour
                         LandType.Add(s);
                         Scanned = true;
                     }
-                    if (colour.Equals(ControlColourGrass))
+                    if (colour.Equals(ControlColours[2]))
                     {
-                        
+                        PixelCount++;
                         var g = new Pixel()
                         {
                             Type = "grass",
@@ -95,9 +103,9 @@ public class PixelFinder : MonoBehaviour
                         LandType.Add(g);
                         Scanned = true;
                     }
-                    if (colour.Equals(ControlColourMountains))
+                    if (colour.Equals(ControlColours[3]))
                     {
-                        
+                        PixelCount++;
                         var m = new Pixel()
                         {
                             Type = "mountains",
@@ -110,26 +118,30 @@ public class PixelFinder : MonoBehaviour
             }
         } 
     }
-    
-    void Update()
-    {
-        ScanTexture();
 
+    private int x;
+
+    private int y;
+    void GenerateTexture()
+    {
         if (Scanned && Input.GetKeyDown(KeyCode.Insert))
         {
             var newTexture = new Texture2D(512, 512,TextureFormat.RGBA32,true);
             foreach (var pos in LandType)
             {
-                var x = Mathf.RoundToInt(pos.Position.x);
-                var y = Mathf.RoundToInt(pos.Position.y);
+                Color color;
+                 x = Mathf.RoundToInt(pos.Position.x);
+                 y = Mathf.RoundToInt(pos.Position.y);
                 if (pos.Type == "sea")
                 {
-                    newTexture.SetPixel(x, y, Color.black); 
+                    color = CalculateColorSea(x, y);
+                    newTexture.SetPixel(x, y, color); 
                 }
 
                 if (pos.Type == "beach")
                 {
-                    newTexture.SetPixel(x,y,Color.yellow);
+                    color = CalculateColorBeach(x, y);
+                    newTexture.SetPixel(x,y,color);
                 }
 
                 if (pos.Type == "grass")
@@ -150,5 +162,22 @@ public class PixelFinder : MonoBehaviour
             print("Saved at" + Application.dataPath);
         
         }
+    }
+
+    public float scale;
+    Color CalculateColorSea(int x,int  y)
+    { 
+        float xCoord = (float)x / 512 * scale; 
+        float yCoord = (float)y / 512 * scale;
+        float Sample = Mathf.PerlinNoise(xCoord, yCoord);
+        return new Color(Sample * 0.3f, Sample * 0.3f, Sample * 0.3f);
+    }
+
+    Color CalculateColorBeach(int x, int y)
+    {
+        float xCoord = (float)x / 512 * 10 + 50; 
+        float yCoord = (float)y / 512 * 10 + 50;
+        float Sample = Mathf.PerlinNoise(xCoord, yCoord);
+        return new Color(Sample / 1.5f, Sample / 1.5f, Sample / 1.5f);
     }
 }
