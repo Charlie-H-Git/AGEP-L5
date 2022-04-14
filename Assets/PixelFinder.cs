@@ -38,17 +38,27 @@ public class PixelFinder : MonoBehaviour
     public bool Generated;
 
     public int PixelCount;
-    public List<Color32> Colour;
+    
+    [SerializeField]
+    private List<Color32> Colour;
     
     void Start()
     {
         GetTexture();
+<<<<<<< Updated upstream
     }
     void Update()
     {
         ScanTexture();
         GenerateTexture();
     }
+=======
+        GetColour();
+    }
+
+
+    
+>>>>>>> Stashed changes
     void GetTexture()
     {
         Terrain = GameObject.FindGameObjectWithTag("Terrain"); 
@@ -56,6 +66,40 @@ public class PixelFinder : MonoBehaviour
         terrainTexture = terrainMaterial.GetTexture("_MainTex");
 
         terrainTexture2D = (Texture2D) terrainTexture;
+        
+        print(terrainTexture.name);
+    }
+    void GetColour()
+    {
+        for (int x = 0; x < 512; x++)
+        {
+            for (int y = 0; y < 512; y++)
+            {
+                Color32 colour = terrainTexture2D.GetPixel(x, y);
+                if (colour.b > 150)
+                {
+                    ControlColourWater = colour;
+                }
+
+                if (!colour.Equals(ControlColourWater) && colour.g > 100 && colour.r < 100)
+                {
+                    ControlColourGrass = colour;
+                }
+
+                if (!colour.Equals(ControlColourGrass) && !colour.Equals(ControlColourWater) && colour.g > 175 && colour.b < 65 )
+                {
+                    ControlColourSand = colour;
+                }
+
+                if (!colour.Equals(ControlColourWater) && !colour.Equals(ControlColourGrass) && !colour.Equals(ControlColourSand))
+                {
+                    if (colour.r == colour.g)
+                    {
+                        ControlColourMountains = colour; 
+                    }
+                }
+            }
+        }
     }
     void ScanTexture()
     {
@@ -70,7 +114,10 @@ public class PixelFinder : MonoBehaviour
                     Scanned = true;
                     if (colour.Equals(ControlColours[0]))
                     {
+<<<<<<< Updated upstream
                         PixelCount++;
+=======
+>>>>>>> Stashed changes
                         var l = new Pixel()
                         {
                             Type = "sea",
@@ -83,7 +130,10 @@ public class PixelFinder : MonoBehaviour
                     
                     if (colour.Equals(ControlColours[1]))
                     {
+<<<<<<< Updated upstream
                         PixelCount++;
+=======
+>>>>>>> Stashed changes
                         var s = new Pixel()
                         {
                             Type = "beach",
@@ -94,7 +144,10 @@ public class PixelFinder : MonoBehaviour
                     }
                     if (colour.Equals(ControlColours[2]))
                     {
+<<<<<<< Updated upstream
                         PixelCount++;
+=======
+>>>>>>> Stashed changes
                         var g = new Pixel()
                         {
                             Type = "grass",
@@ -105,7 +158,10 @@ public class PixelFinder : MonoBehaviour
                     }
                     if (colour.Equals(ControlColours[3]))
                     {
+<<<<<<< Updated upstream
                         PixelCount++;
+=======
+>>>>>>> Stashed changes
                         var m = new Pixel()
                         {
                             Type = "mountains",
@@ -114,19 +170,27 @@ public class PixelFinder : MonoBehaviour
                         LandType.Add(m);
                         Scanned = true;
                     }
+
+                    PixelCount = Colour.Count;
                 }
             }
         } 
     }
 
+<<<<<<< Updated upstream
     private int x;
 
     private int y;
     void GenerateTexture()
     {
         if (Scanned && Input.GetKeyDown(KeyCode.Insert))
+=======
+    void GenerateLayerMap()
+    {
+        if (Scanned && Input.GetKeyDown(KeyCode.RightBracket))
+>>>>>>> Stashed changes
         {
-            var newTexture = new Texture2D(512, 512,TextureFormat.RGBA32,true);
+            var newTexture = new Texture2D(512, 512, TextureFormat.RGBA32, true);
             foreach (var pos in LandType)
             {
                 Color color;
@@ -134,35 +198,43 @@ public class PixelFinder : MonoBehaviour
                  y = Mathf.RoundToInt(pos.Position.y);
                 if (pos.Type == "sea")
                 {
+<<<<<<< Updated upstream
                     color = CalculateColorSea(x, y);
                     newTexture.SetPixel(x, y, color); 
+=======
+                    newTexture.SetPixel(x, y, Color.black);
+>>>>>>> Stashed changes
                 }
 
                 if (pos.Type == "beach")
                 {
+<<<<<<< Updated upstream
                     color = CalculateColorBeach(x, y);
                     newTexture.SetPixel(x,y,color);
+=======
+                    newTexture.SetPixel(x, y, Color.yellow);
+>>>>>>> Stashed changes
                 }
 
                 if (pos.Type == "grass")
                 {
-                    newTexture.SetPixel(x,y,Color.green);
+                    newTexture.SetPixel(x, y, Color.green);
                 }
 
                 if (pos.Type == "mountains")
                 {
-                    newTexture.SetPixel(x,y,Color.grey);
+                    newTexture.SetPixel(x, y, Color.grey);
                 }
-                
+
                 Generated = true;
             }
-            
+
             byte[] bytes = newTexture.EncodeToJPG();
             File.WriteAllBytes(Application.dataPath + "/Image.png", bytes);
             print("Saved at" + Application.dataPath);
-        
         }
     }
+<<<<<<< Updated upstream
 
     public float scale;
     Color CalculateColorSea(int x,int  y)
@@ -179,5 +251,12 @@ public class PixelFinder : MonoBehaviour
         float yCoord = (float)y / 512 * 10 + 50;
         float Sample = Mathf.PerlinNoise(xCoord, yCoord);
         return new Color(Sample / 1.5f, Sample / 1.5f, Sample / 1.5f);
+=======
+    
+    void Update()
+    {
+        ScanTexture();
+        GenerateLayerMap();
+>>>>>>> Stashed changes
     }
 }

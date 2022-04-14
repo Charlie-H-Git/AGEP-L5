@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -409,6 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c19c8ebf093c3f459fc0a5367f991f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   ControlColours:
   - serializedVersion: 2
     rgba: 4290802283
@@ -418,6 +419,20 @@ MonoBehaviour:
     rgba: 4278229248
   - serializedVersion: 2
     rgba: 4282796104
+=======
+  ControlColourWater:
+    serializedVersion: 2
+    rgba: 4278190080
+  ControlColourSand:
+    serializedVersion: 2
+    rgba: 4278190080
+  ControlColourGrass:
+    serializedVersion: 2
+    rgba: 4278190080
+  ControlColourMountains:
+    serializedVersion: 2
+    rgba: 4278190080
+>>>>>>> Stashed changes
   Scanned: 0
   Generated: 0
   PixelCount: 0
