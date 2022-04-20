@@ -409,7 +409,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c19c8ebf093c3f459fc0a5367f991f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
   ControlColours:
   - serializedVersion: 2
     rgba: 4290802283
@@ -419,7 +418,7 @@ MonoBehaviour:
     rgba: 4278229248
   - serializedVersion: 2
     rgba: 4282796104
-=======
+
   ControlColourWater:
     serializedVersion: 2
     rgba: 4278190080
@@ -432,7 +431,7 @@ MonoBehaviour:
   ControlColourMountains:
     serializedVersion: 2
     rgba: 4278190080
->>>>>>> Stashed changes
+
   Scanned: 0
   Generated: 0
   PixelCount: 0
