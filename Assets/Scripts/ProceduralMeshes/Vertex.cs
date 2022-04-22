@@ -11,8 +11,6 @@ using Unity.Jobs;
 using static Unity.Mathematics.math;
 using UnityEngine.UIElements;
 
-
-
 namespace ProceduralMeshes
 {
     public struct Vertex

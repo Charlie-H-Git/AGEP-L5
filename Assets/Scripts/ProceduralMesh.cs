@@ -6,7 +6,7 @@ using ProceduralMeshes.Generators;
 using ProceduralMeshes.Streams;
 using UnityEngine;
 using UnityEngine.Rendering;
-
+[ExecuteInEditMode]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class ProceduralMesh : MonoBehaviour
 {
