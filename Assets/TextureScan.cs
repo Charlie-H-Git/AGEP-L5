@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(PixelFinder))]
-public class MeshGeneration : Editor
+public class TextureScan : Editor
 {
     public override void OnInspectorGUI()
     {

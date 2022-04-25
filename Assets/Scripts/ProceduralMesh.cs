@@ -19,7 +19,7 @@ public class ProceduralMesh : MonoBehaviour
     
     [SerializeField]
     MeshType meshType;
-    public enum MeshType {
+    enum MeshType {
         SquareGrid, SharedSquareGrid
     }
     
@@ -30,7 +30,7 @@ public class ProceduralMesh : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
     }
     [SerializeField, Range(1, 100)]
-    int resolution = 1;
+    public int resolution = 1;
     
     void OnValidate () => enabled = true;
 
@@ -39,7 +39,7 @@ public class ProceduralMesh : MonoBehaviour
         enabled = false;
     }
     
-    void GenerateMesh()
+    public void GenerateMesh()
     {
         Mesh.MeshDataArray meshDataArray = Mesh.AllocateWritableMeshData(1);
         Mesh.MeshData meshData = meshDataArray[0];

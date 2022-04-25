@@ -47,7 +47,6 @@ public class PixelFinder : MonoBehaviour
         {
             GenerateLayerMap(); 
         }
-        
     }
 
     public void PurgeLists()
@@ -70,7 +69,6 @@ public class PixelFinder : MonoBehaviour
         var terrainMaterial = Terrain.GetComponent<MeshRenderer>().sharedMaterial;
         terrainTexture2D = (Texture2D) terrainTexture;
         terrainMaterial.SetTexture("_MainTex", terrainTexture2D);
-        
         print(terrainTexture.name);
     }
 
@@ -180,12 +178,7 @@ public class PixelFinder : MonoBehaviour
                 PixelCount = Colour.Count;
             }
         }
-        
     }
-
-
-    //public float scale;
-
     Color CalculateColorSea(int x, int y)
     {
         float xCoord = (float) x / 512 ;
