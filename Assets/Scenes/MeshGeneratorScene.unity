@@ -545,11 +545,8 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013343359}
-<<<<<<< Updated upstream
   m_Mesh: {fileID: 748896964}
-=======
   m_Mesh: {fileID: 1061417693}
->>>>>>> Stashed changes
 --- !u!4 &1013343363
 Transform:
   m_ObjectHideFlags: 0
@@ -587,13 +584,11 @@ MonoBehaviour:
   - serializedVersion: 2
     rgba: 4282927176
   terrainTexture: {fileID: 2800000, guid: bfbeef877fa264b9ab4c55aae8a13136, type: 3}
-<<<<<<< Updated upstream
   Scanned: 0
   Generated: 0
   PixelCount: 0
   Start: 0
   GetColourDone: 1
-=======
   Scanned: 1
   Generated: 1
   PixelCount: 262144
@@ -763,7 +758,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
->>>>>>> Stashed changes
 --- !u!21 &2083419222
 Material:
   serializedVersion: 6
