@@ -75,47 +75,53 @@ public class PixelFinder : MonoBehaviour
     public bool GetColourDone;
     public void GetColour()
     {
-        if (GetColourDone == false)
+        if (!GetColourDone)
         {
+            GetColourDone = true;
             for (int x = 0; x < 512; x++)
             {
                 for (int y = 0; y < 512; y++)
                 {
                     Color32 colour = terrainTexture2D.GetPixel(x, y);
-                    if (colour.b > 150)
+                    if ( AverageRGB(colour.r) == AverageRGB(colour.g) && AverageRGB(colour.b) == AverageRGB(colour.g))
+                    {
+                        //grey
+                        ControlColours[3] = colour;
+                        continue;
+                    }
+                    if (AverageRGB(colour.b) > 150 && AverageRGB(colour.g) < 150)
                     {
                         //water
                         ControlColours[0] = colour;
+                        continue;
+                        
                     }
 
-                    if (!colour.Equals(ControlColours[0]) && colour.g > 100 && colour.r < 100)
+                    if ( colour.g > 100 && colour.r < 100)
                     {
                         //grass
                         ControlColours[1] = colour;
+                        continue;
                     }
 
-                    if (!colour.Equals(ControlColours[1]) && !colour.Equals(ControlColours[0]) && colour.g > 175 &&
-                        colour.b < 65)
+                    if ( colour.r > 175 && colour.g > 175 && colour.b < 100)
                     {
                         //sand
                         ControlColours[2] = colour;
+                        continue;
                     }
-
-                    if (!colour.Equals(ControlColours[0]) && !colour.Equals(ControlColours[1]) &&
-                        !colour.Equals(ControlColours[2]))
-                    {
-                        //mountains
-                        if (colour.r == colour.g)
-                        {
-                            ControlColours[3] = colour;
-                            GetColourDone = true;
-                        }
-                    }
+                    
+                    ControlColours[3] = colour;
                 }
             }
         }
     }
 
+    int AverageRGB(int c)
+    {
+        int av = Mathf.CeilToInt((float)c / 10f);
+        return av * 10;
+    }
     public void ScanTexture()
     {
         for (int x = 0; x < 512; x++)
@@ -181,8 +187,8 @@ public class PixelFinder : MonoBehaviour
     }
     Color CalculateColorSea(int x, int y)
     {
-        float xCoord = (float) x / 512 ;
-        float yCoord = (float) y / 512 ;
+        float xCoord = (float) x / 512  + 10;
+        float yCoord = (float) y / 512 + 10;
         float Sample = Mathf.PerlinNoise(xCoord, yCoord);
         return new Color(Sample * 0.3f, Sample * 0.3f, Sample * 0.3f);
     }
@@ -202,7 +208,7 @@ public class PixelFinder : MonoBehaviour
         var newTexture = new Texture2D(512, 512, TextureFormat.RGBA32, true);
         foreach (var pos in LandType)
         {
-            //Color color;
+            Color color;
             x = Mathf.RoundToInt(pos.Position.x);
             y = Mathf.RoundToInt(pos.Position.y);
             if (pos.Type == "sea")
