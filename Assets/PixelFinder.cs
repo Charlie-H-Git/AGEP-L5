@@ -185,20 +185,47 @@ public class PixelFinder : MonoBehaviour
             }
         }
     }
-    Color CalculateColorSea(int x, int y)
-    {
-        float xCoord = (float) x / 512  + 10;
-        float yCoord = (float) y / 512 + 10;
-        float Sample = Mathf.PerlinNoise(xCoord, yCoord);
-        return new Color(Sample * 0.3f, Sample * 0.3f, Sample * 0.3f);
-    }
 
-    Color CalculateColorBeach(int x, int y)
+    // public void OldNoiseMethods()
+    // {
+    //     Color CalculateColorSea(int x, int y)
+    //     {
+    //         float xCoord = (float) x / 512  + 10;
+    //         float yCoord = (float) y / 512 + 10;
+    //         float Sample = Mathf.PerlinNoise(xCoord, yCoord);
+    //         return new Color(Sample * 0.3f, Sample * 0.3f, Sample * 0.3f);
+    //     }
+    //
+    //     Color CalculateColorBeach(int x, int y)
+    //     {
+    //         float xCoord = (float) x / 512 * 2.5f + 50;
+    //         float yCoord = (float) y / 512 * 2.5f + 50;
+    //         float Sample = Mathf.PerlinNoise(xCoord, yCoord);
+    //         return new Color(Sample / 1.5f, Sample / 1.5f, Sample / 1.5f);
+    //     }
+    //
+    //     Color CalculateColorGrass(int x, int y)
+    //     {
+    //         float xCoord = (float) x / 512 * 5 + 25;
+    //         float yCoord = (float) y / 512 * 5 + 25;
+    //         float Sample = Mathf.PerlinNoise(xCoord, yCoord);
+    //         return new Color(Sample / 1.7f, Sample / 1.7f, Sample / 1.7f);
+    //     }
+    //     Color CalculateColorMountains(int x, int y)
+    //     {
+    //         float xCoord = (float) x / 512 * 20 + 25;
+    //         float yCoord = (float) y / 512 * 20 + 25;
+    //         float Sample = Mathf.PerlinNoise(xCoord, yCoord);
+    //         return new Color(Sample / 2f, Sample / 2f, Sample / 2f);
+    //     }
+    // }
+    
+    Color CalculateNoise(int x, int y, int resolution, float scale, int offset, float saturation)
     {
-        float xCoord = (float) x / 512 * 10 + 50;
-        float yCoord = (float) y / 512 * 10 + 50;
+        float xCoord = (float) x / resolution * scale + offset;
+        float yCoord = (float) y / resolution * scale + offset;
         float Sample = Mathf.PerlinNoise(xCoord, yCoord);
-        return new Color(Sample / 1.5f, Sample / 1.5f, Sample / 1.5f);
+        return new Color(Sample / saturation, Sample / saturation, Sample / saturation);
     }
     
     private int x;
@@ -211,25 +238,45 @@ public class PixelFinder : MonoBehaviour
             Color color;
             x = Mathf.RoundToInt(pos.Position.x);
             y = Mathf.RoundToInt(pos.Position.y);
+            
             if (pos.Type == "sea")
             {
-                // color = CalculateColorSea(x, y);
-                // newTexture.SetPixel(x, y, color);
-                newTexture.SetPixel(x,y,Color.black);
+                int resolution = 512;
+                float scale = 1f;
+                int offset = 10;
+                float saturation = 4f;
+                color = CalculateNoise(x, y, resolution, scale, offset, saturation);
+                newTexture.SetPixel(x, y, color);
+                //newTexture.SetPixel(x,y,Color.black);
             }
             if (pos.Type == "beach")
             {
-                // color = CalculateColorBeach(x, y);
-                // newTexture.SetPixel(x, y, color);
-                newTexture.SetPixel(x,y,Color.yellow);
+                int resolution = 512;
+                float scale = 4f;
+                int offset = 50;
+                float saturation = 3f;
+                color = CalculateNoise(x, y, resolution, scale, offset, saturation);
+                newTexture.SetPixel(x, y, color);
+                // newTexture.SetPixel(x,y,Color.yellow);
             }
             if (pos.Type == "grass")
             {
-                newTexture.SetPixel(x, y, Color.green);
+                int resolution = 512;
+                float scale = 8f;
+                int offset = 50;
+                float saturation = 2.5f;
+                color = CalculateNoise(x, y, resolution, scale, offset, saturation);
+                newTexture.SetPixel(x, y, color);
+                //newTexture.SetPixel(x, y, Color.green);
             }
             if (pos.Type == "mountains")
             {
-                newTexture.SetPixel(x, y, Color.grey);
+                int resolution = 512;
+                float scale = 12f;
+                int offset = 30;
+                float saturation = 2f;
+                color = CalculateNoise(x, y, resolution, scale, offset, saturation);
+                newTexture.SetPixel(x, y, color);
             }
             Generated = true;
         }
